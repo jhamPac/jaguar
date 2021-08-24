@@ -1,11 +1,11 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-import Web.Scotty
-import Data.Monoid (mconcat)
-
 module Lib
     ( run
     ) where
+
+import Web.Scotty
+import Data.Monoid (mconcat)
 
 run :: IO ()
 run = scotty 9000 $

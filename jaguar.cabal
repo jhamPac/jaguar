@@ -32,6 +32,7 @@ library
       src
   build-depends:
       base >=4.7 && <5
+    , scotty
   default-language: Haskell2010
 
 executable jaguar-exe
@@ -44,6 +45,7 @@ executable jaguar-exe
   build-depends:
       base >=4.7 && <5
     , jaguar
+    , scotty
   default-language: Haskell2010
 
 test-suite jaguar-test
@@ -57,4 +59,5 @@ test-suite jaguar-test
   build-depends:
       base >=4.7 && <5
     , jaguar
+    , scotty
   default-language: Haskell2010
