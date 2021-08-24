@@ -9,6 +9,4 @@ import Data.Monoid (mconcat)
 
 run :: IO ()
 run = scotty 9000 $
-    get "/:word" $ do
-        w <- param "word"
-        html $ mconcat ["<h1>Jaguar, ", w, " web server with Haskell!</h2>"]
+    get "/" $ html "<h1>Jaguar</h1>"
