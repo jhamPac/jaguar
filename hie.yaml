@@ -1,0 +1,13 @@
+cradle:
+  stack:
+    - path: "./src"
+      component: "jaguar:lib"
+
+    - path: "./app/Main.hs"
+      component: "jaguar:exe:jaguar-exe"
+
+    - path: "./app/Paths_jaguar.hs"
+      component: "jaguar:exe:jaguar-exe"
+
+    - path: "./test"
+      component: "jaguar:test:jaguar-test"
