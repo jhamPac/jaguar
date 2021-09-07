@@ -1,15 +1,17 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Lib
+module Server
   ( run,
   )
 where
 
+import           Control.Monad.IO.Class             (MonadIO (liftIO))
+import           Data.IORef                         (modifyIORef, newIORef)
 import           Data.Monoid                        (mconcat)
 import           Text.Blaze.Html.Renderer.Text      (renderHtml)
 import qualified Text.Blaze.Html4.Strict.Attributes as A
 import qualified Text.Blaze.Html5                   as H
-import           Web.Scotty
+import           Web.Scotty                         (get, html, post, scotty)
 
 run :: IO ()
 run = scotty 9000 $
