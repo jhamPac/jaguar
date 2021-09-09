@@ -29,6 +29,7 @@ library:
         - scotty
         - containers
         - text
+        - http-types
 
 executables:
     jaguar-exe:

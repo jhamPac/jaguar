@@ -13,11 +13,14 @@ import           Data.Map                           (Map)
 import qualified Data.Map                           as M
 import           Data.Monoid                        (mconcat)
 import           Data.Text                          (Text)
+import qualified Data.Text.Lazy                     as LT
+import           Network.HTTP.Types                 (status404)
 import           Text.Blaze.Html.Renderer.Text      (renderHtml)
 import qualified Text.Blaze.Html4.Strict.Attributes as A
 import qualified Text.Blaze.Html5                   as H
 import           Web.Scotty                         (get, html, param, post,
-                                                     redirect, scotty)
+                                                     raiseStatus, redirect,
+                                                     scotty)
 
 run :: IO ()
 run = do
@@ -44,4 +47,10 @@ run = do
                 \(i, urls) ->
                     (i + 1, M.insert i url urls)
             redirect "/"
+        get "/:n" $ do
+            n <- param "n"
+            (_, urls) <- liftIO $ readIORef urlsR
+            case M.lookup n urls of
+                Just url -> redirect (LT.fromStrict url)
+                Nothing  -> raiseStatus status404 "not found"
 
