@@ -26,6 +26,15 @@ import           Web.Scotty                         (get, html, param, post,
                                                      raiseStatus, redirect,
                                                      scotty)
 
+hash' :: ByteString -> Int
+hash' = hash
+
+text2byte :: Text -> ByteString
+text2byte = encodeUtf8
+
+sanitizeKey :: Text -> Int
+sanitizeKey = abs . hash' . text2byte
+
 run :: IO ()
 run = do
     conn <- R.checkedConnect R.defaultConnectInfo
@@ -48,10 +57,11 @@ run = do
                                         H.td (H.text url)
         post "/" $ do
             url <- param "url"
+            liftIO $ print $ show (sanitizeKey url)
             liftIO $ modifyIORef urlsR $
                 \(i, urls) ->
                     (i + 1, M.insert i url urls)
-            liftIO $ R.runRedis conn $ do R.set "fake" (encodeUtf8 url)
+            liftIO $ R.runRedis conn $ do R.set "fake" (text2byte url)
             redirect "/"
         get "/:n" $ do
             n <- param "n"
