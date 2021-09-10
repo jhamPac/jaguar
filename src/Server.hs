@@ -14,6 +14,7 @@ import           Data.Map                           (Map)
 import qualified Data.Map                           as M
 import           Data.Monoid                        (mconcat)
 import           Data.Text                          (Text)
+import           Data.Text.Encoding                 (encodeUtf8)
 import qualified Data.Text.Lazy                     as LT
 import qualified Database.Redis                     as R
 import           Network.HTTP.Types                 (status404)
@@ -26,6 +27,7 @@ import           Web.Scotty                         (get, html, param, post,
 
 run :: IO ()
 run = do
+    conn <- R.checkedConnect R.defaultConnectInfo
     urlsR <- newIORef (1 :: Int, mempty :: Map Int Text)
     scotty 9000 $ do
         get "/" $ do
@@ -48,6 +50,7 @@ run = do
             liftIO $ modifyIORef urlsR $
                 \(i, urls) ->
                     (i + 1, M.insert i url urls)
+            liftIO $ R.runRedis conn $ do R.set "fake" (encodeUtf8 url)
             redirect "/"
         get "/:n" $ do
             n <- param "n"
