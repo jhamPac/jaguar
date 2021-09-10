@@ -32,8 +32,8 @@ hash' = hash
 text2byte :: Text -> ByteString
 text2byte = encodeUtf8
 
-sanitizeKey :: Text -> Int
-sanitizeKey = abs . hash' . text2byte
+sanitizeKey :: Text -> ByteString
+sanitizeKey = pack . show . abs . hash' . text2byte
 
 run :: IO ()
 run = do
@@ -57,11 +57,10 @@ run = do
                                         H.td (H.text url)
         post "/" $ do
             url <- param "url"
-            liftIO $ print $ show (sanitizeKey url)
             liftIO $ modifyIORef urlsR $
                 \(i, urls) ->
                     (i + 1, M.insert i url urls)
-            liftIO $ R.runRedis conn $ do R.set "fake" (text2byte url)
+            liftIO $ R.runRedis conn $ do R.set (sanitizeKey url) (text2byte url)
             redirect "/"
         get "/:n" $ do
             n <- param "n"
