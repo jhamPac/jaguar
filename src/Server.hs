@@ -29,11 +29,8 @@ import           Web.Scotty                         (get, html, param, post,
 hash' :: ByteString -> Int
 hash' = hash
 
-text2byte :: Text -> ByteString
-text2byte = encodeUtf8
-
 sanitizeKey :: Text -> ByteString
-sanitizeKey = pack . show . abs . hash' . text2byte
+sanitizeKey = pack . show . abs . hash' . encodeUtf8
 
 run :: IO ()
 run = do
@@ -60,7 +57,7 @@ run = do
             liftIO $ modifyIORef urlsR $
                 \(i, urls) ->
                     (i + 1, M.insert i url urls)
-            liftIO $ R.runRedis conn $ do R.set (sanitizeKey url) (text2byte url)
+            liftIO $ R.runRedis conn $ do R.set (sanitizeKey url) (encodeUtf8 url)
             redirect "/"
         get "/:n" $ do
             n <- param "n"
