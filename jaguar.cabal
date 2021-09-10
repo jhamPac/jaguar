@@ -32,7 +32,6 @@ library
       src
   build-depends:
       base >=4.7 && <5
-    , binary
     , blaze-html >=0.9
     , bytestring
     , containers
