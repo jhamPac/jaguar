@@ -33,7 +33,9 @@ library
   build-depends:
       base >=4.7 && <5
     , blaze-html >=0.9
+    , bytestring
     , containers
+    , hedis
     , http-types
     , scotty
     , text

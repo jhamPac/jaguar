@@ -30,6 +30,8 @@ library:
         - containers
         - text
         - http-types
+        - bytestring
+        - hedis
 
 executables:
     jaguar-exe:
