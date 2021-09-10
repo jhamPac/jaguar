@@ -8,6 +8,7 @@ where
 import           Control.Monad.IO.Class             (MonadIO (liftIO))
 import           Data.ByteString.Char8
 import           Data.Foldable                      (for_)
+import           Data.Hashable
 import           Data.IORef                         (modifyIORef, newIORef,
                                                      readIORef)
 import           Data.Map                           (Map)
