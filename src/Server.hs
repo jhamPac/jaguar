@@ -6,9 +6,9 @@ module Server
 where
 
 import           Control.Monad.IO.Class             (MonadIO (liftIO))
-import           Data.ByteString.Char8
+import           Data.ByteString.Char8              (ByteString, pack)
 import           Data.Foldable                      (for_)
-import           Data.Hashable
+import           Data.Hashable                      (Hashable (hash))
 import qualified Data.Map                           as M
 import           Data.Text                          (Text)
 import           Data.Text.Encoding                 (encodeUtf8)
